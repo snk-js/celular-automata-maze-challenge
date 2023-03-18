@@ -22,7 +22,8 @@ const validateSwap = (columnLength, rowLength, finalPosIncrementVec, currentPosV
   const [finalRow, finalColumn] = [row + rowAddition, column + columnAddition]
 
   if((finalRow >= 0) && (finalRow < rowLength) && (finalColumn >= 0) && (finalColumn < columnLength)) {
-    if (!matrix[finalRow][finalColumn] === 0) {
+    console.log(matrix[finalRow][finalColumn])
+    if (!matrix[finalRow][finalColumn] == 0) {
       return false
     } else {
       return [finalRow, finalColumn]
@@ -45,7 +46,7 @@ const agentStep = (matrix, step) => {
           break
         }
         if(!validationResult) {
-
+          break
         }
         matrix[i][j] = 0
         matrix[validationResult[0]][validationResult[1]] = 3
