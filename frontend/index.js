@@ -1,4 +1,5 @@
 
+
 const div = document.createElement('div');
 div.setAttribute("class", "container")
 
@@ -17,22 +18,17 @@ const cellsMatrix = (input) => {
   return splited
 }
 
-const createTable = (cellsMatrix) => {
-  const table = document.createElement('table')
-  table.setAttribute("class", "table")
-  cellsMatrix.forEach((row) => {
-    const tr = document.createElement('tr')
-    row.forEach((cell) => {
-      const td = document.createElement('td')
-      td.setAttribute("class", "cell")
-      td.innerHTML = cell
-      tr.appendChild(td)
-    })
-    table.appendChild(tr)
-  })
-  return table
+const initialState = cellsMatrix(celular_automata_input_easy)
+
+const changeAgentPosition = (event) => {
+  const key = event.key
+  const newTable = agentStep(initialState, key)
+  const oldTable = document.getElementsByTagName('table')[0]
+  newTable && oldTable.parentNode.replaceChild(createTable(newTable), oldTable)
 }
 
-div.appendChild(createTable(cellsMatrix(celular_automata_input_easy)))
+document.addEventListener('keydown', changeAgentPosition)
+
+div.appendChild(createTable(initialState))
 document.getElementsByTagName('body')[0].appendChild(div)
 

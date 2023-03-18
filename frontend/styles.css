@@ -1,8 +1,74 @@
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: rgb(75, 74, 74);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  min-width: 550px;
+}
+
+.container {
+  min-width: 500px;
+}
+
 .cell {
-  width: 50px;
-  height: 50px;
-  background: pink;
+  width: 3rem;
+  height: 3rem;
+  background: rgb(17, 16, 16);
   padding: 10px;
   border-radius: 10px;
+  min-width: 50px;
+}
 
+.cell[state="0"] {
+  background: rgb(17, 16, 16)
+}
+
+.cell[state="1"] {
+  background: rgb(124, 247, 185)
+}
+
+.cell[state="4"] {
+  background: rgb(12, 180, 63)
+}
+
+
+
+/* example of before */
+
+
+.cell[state="3"] {
+  position: relative;
+  background: rgba(0, 0, 0, 0.171);
+}
+
+.cell[state="3"]::before {
+  content: ' ';
+  width: 5px;
+  height: 5px;
+  background: rgb(255, 227, 105);
+  border-radius: 50%;
+  animation: float 2s ease-in-out infinite;
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  box-shadow: 0 0 15px 15px rgba(255, 15, 223, 0.486);
+
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
