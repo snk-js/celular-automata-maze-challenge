@@ -15,14 +15,13 @@ const createTable = (cellsMatrix) => {
   return table
 }
 
-const validateSwap = (columnLength, rowLength, finalPosIncrementVec, currentPosVec, matrix) => {
+const validateSwap = (finalPosIncrementVec, currentPosVec, matrix) => {
   const [rowAddition, columnAddition] = finalPosIncrementVec
   const [row, column] = currentPosVec
 
   const [finalRow, finalColumn] = [row + rowAddition, column + columnAddition]
 
-  if((finalRow >= 0) && (finalRow < rowLength) && (finalColumn >= 0) && (finalColumn < columnLength)) {
-    console.log(matrix[finalRow][finalColumn])
+  if ((finalRow >= 0) && (finalRow < rowLen) && (finalColumn >= 0) && (finalColumn < colLen)) {
     if (!matrix[finalRow][finalColumn] == 0) {
       return false
     } else {
@@ -33,25 +32,51 @@ const validateSwap = (columnLength, rowLength, finalPosIncrementVec, currentPosV
   }
 }
 
-const agentStep = (matrix, step) => {
-  console.log({step})
-  const columnLength = matrix[0].length
-  const rowLength = matrix.length
+const agentStep = (matrix, step, agentPos) => {
+  console.log({ matrix, step, agentPos }, 'lol')
   const finalPosIncrementVec = step === 'ArrowRight' ? [0, 1] : step === 'ArrowLeft' ? [0, -1] : step === 'ArrowUp' ? [-1, 0] : step === 'ArrowDown' ? [1, 0] : [0, 0]
-  for (let i = 0; i < matrix.length; i++) {
-    for (let j = 0; j < matrix[i].length; j++) {
-      if(matrix[i][j] === 3) {
-        const validationResult = validateSwap(columnLength, rowLength, finalPosIncrementVec, [i, j], matrix)
-        if(validationResult === 'out of bounds') {
-          break
-        }
-        if(!validationResult) {
-          break
-        }
-        matrix[i][j] = 0
-        matrix[validationResult[0]][validationResult[1]] = 3
-        return matrix
-      }
-    }
+
+  const validationResult = validateSwap(finalPosIncrementVec, agentPos, matrix)
+
+  if (validationResult === 'out of bounds') {
+    return validationResult
   }
+
+  validationResult && (matrix[validationResult[0]][validationResult[1]] = 3)
+  return matrix
+}
+
+const resetTable = () => {
+  const oldTable = document.getElementsByTagName('table')[0]
+  oldTable.remove()
+  initialState.pop()
+  initialState.push(cellsMatrix(celular_automata_input_easy))
+  div.appendChild(createTable(initialState[0]))
+}
+
+const fluxTable = (newTable) => {
+  const oldTable = document.getElementsByTagName('table')[0]
+
+  if (!newTable) {
+    resetTable()
+    return
+  }
+
+  if (newTable === 'out of bounds') {
+    newTable && oldTable.parentNode.replaceChild(oldTable, oldTable)
+    return
+  }
+  newTable && oldTable.parentNode.replaceChild(createTable(newTable), oldTable)
+}
+
+const changeAgentPosition = (event) => {
+  const key = event.key
+  const [newMatrix, newAgent] = tick(initialState[0]);
+
+  const updatedMatrix = agentStep(newMatrix, key, newAgent)
+
+  initialState.pop()
+  initialState.push(updatedMatrix)
+
+  fluxTable(updatedMatrix)
 }
