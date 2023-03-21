@@ -12,7 +12,7 @@ const tick = (matrix, updateTable) => {
       if ((cell == 0 || cell == 3) && adjacentOnes > 1 && adjacentOnes < 4) {
         newMatrix[i][j] = 1;
         if (cell == 3) newAgent.push([i, j])
-      } else if (cell === 1 && !(adjacentOnes > 3 && adjacentOnes < 6)) {
+      } else if (cell === 1 && !(adjacentOnes > 3 && adjacentOnes <= 5)) {
         newMatrix[i][j] = 0;
       } else if (cell == 3) {
         newMatrix[i][j] = 0;

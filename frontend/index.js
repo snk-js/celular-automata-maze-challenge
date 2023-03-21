@@ -22,7 +22,7 @@ const initialState = [cellsMatrix(celular_automata_input_easy)]
 const rowLen = initialState[0].length;
 const colLen = initialState[0][0].length;
 
-document.addEventListener('keydown', changeAgentPosition)
+document.addEventListener('keydown', onTick)
 
 div.appendChild(createTable(initialState[0]))
 document.getElementsByTagName('body')[0].appendChild(div)
