@@ -1,6 +1,6 @@
 
 
-const tick = (matrix, updateTable) => {
+const tick = (matrix) => {
   const newMatrix = matrix.map((row) => row.slice());
   const newAgent = []
   for (let i = 0; i < rowLen; i++) {
@@ -20,5 +20,5 @@ const tick = (matrix, updateTable) => {
       }
     }
   }
-  return [newMatrix, newAgent.pop()]
+  return [newMatrix, newAgent.pop(), matrix]
 };

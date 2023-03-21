@@ -40,8 +40,9 @@ const fluxTable = (newTable) => {
 
 const onTick = (event) => {
   const key = event.key
-  const [newMatrix, newAgent] = tick(initialState[0]);
+  const [newMatrix, newAgent, oldMatrix] = tick(initialState[0]);
   const updatedMatrix = agentStep(newMatrix, key, newAgent)
+  if (!updatedMatrix) fluxTable(oldMatrix)
   initialState.pop()
   initialState.push(updatedMatrix)
   fluxTable(updatedMatrix)

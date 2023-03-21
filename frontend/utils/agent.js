@@ -9,14 +9,15 @@ const validateSwap = (finalPosIncrementVec, currentPosVec, matrix, reset) => {
       return [finalRow, finalColumn]
     }
   } else {
-    return 'out of bounds'
+    // 'out of bounds'
+    return false
   }
 }
 
 const agentStep = (matrix, step, agentPos) => {
   const finalPosIncrementVec = step === 'ArrowRight' ? [0, 1] : step === 'ArrowLeft' ? [0, -1] : step === 'ArrowUp' ? [-1, 0] : step === 'ArrowDown' ? [1, 0] : [0, 0]
   const validationResult = validateSwap(finalPosIncrementVec, agentPos, matrix)
-  if (!validationResult) return false
+  if (!validationResult) return validationResult
   validationResult && (matrix[validationResult[0]][validationResult[1]] = 3)
   return matrix
 }
