@@ -1,4 +1,4 @@
-const getAdjacentCells = (row, col, matrix) => {
+export const getAdjacentCells = (row, col, matrix, rowLen, colLen) => {
   const adjacentCells = [];
   for (let i = -1; i <= 1; i++) {
     for (let j = -1; j <= 1; j++) {
@@ -6,7 +6,12 @@ const getAdjacentCells = (row, col, matrix) => {
         const newRow = row + i;
         const newCol = col + j;
         if (newRow >= 0 && newRow < rowLen && newCol >= 0 && newCol < colLen) {
-          adjacentCells.push(matrix[newRow][newCol]);
+          try {
+            adjacentCells.push(matrix[newRow] && matrix[newRow][newCol]);
+
+          } catch (e) {
+            console.log(matrix, newRow, newCol)
+          }
         }
       }
     }
@@ -14,7 +19,7 @@ const getAdjacentCells = (row, col, matrix) => {
   return adjacentCells;
 };
 
-const getAdjacentOnes = (i, j, matrix, newRowLength, newColLength) => {
+export const getAdjacentOnes = (i, j, matrix, newRowLength, newColLength) => {
   const adjacentCells = getAdjacentCells(i, j, matrix, newRowLength, newColLength);
   return adjacentCells.filter((cell) => cell === 1).length;
 }

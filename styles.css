@@ -17,12 +17,11 @@ body {
 }
 
 .cell {
-  width: 3rem;
-  height: 3rem;
+  width: 0.75rem;
+  height: 0.75rem;
   background: rgb(17, 16, 16);
-  padding: 10px;
+  padding: 2px;
   border-radius: 10px;
-  min-width: 50px;
 }
 
 .cell[state="0"] {

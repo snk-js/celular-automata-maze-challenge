@@ -1,5 +1,6 @@
+import { agentStep } from "../utils/agent.js"
 
-const createTable = (cellsMatrix) => {
+export const createTable = (cellsMatrix) => {
   const table = document.createElement('table')
   table.setAttribute("class", "table")
   cellsMatrix.forEach((row) => {
@@ -17,18 +18,18 @@ const createTable = (cellsMatrix) => {
 
 
 
-const resetTable = () => {
+export const resetTable = (state) => {
   const oldTable = document.getElementsByTagName('table')[0]
   oldTable.remove()
-  initialState.pop()
-  initialState.push(cellsMatrix(celular_automata_input_easy))
+  state.pop()
+  state.push(cellsMatrix(celular_automata_input_easy))
   div.appendChild(createTable(initialState[0]))
 }
 
-const fluxTable = (newTable) => {
+export const fluxTable = (newTable, state) => {
   const oldTable = document.getElementsByTagName('table')[0]
   if (!newTable) {
-    resetTable()
+    resetTable(state)
     return
   }
   if (newTable === 'out of bounds') {
@@ -38,12 +39,16 @@ const fluxTable = (newTable) => {
   newTable && oldTable.parentNode.replaceChild(createTable(newTable), oldTable)
 }
 
-const onTick = (event) => {
+import { tick } from "../utils/rules.js"
+
+export const onTick = (event, state) => {
+  const rowLen = state[0].length
+  const colLen = state[0][0].length
   const key = event.key
-  const [newMatrix, newAgent, oldMatrix] = tick(initialState[0]);
-  const updatedMatrix = agentStep(newMatrix, key, newAgent)
-  if (!updatedMatrix) fluxTable(oldMatrix)
-  initialState.pop()
-  initialState.push(updatedMatrix)
+  const [newMatrix, newAgent, oldMatrix] = tick(state[0], rowLen, colLen);
+  const updatedMatrix = agentStep(newMatrix, key, newAgent, rowLen, colLen)
+  if (!updatedMatrix) fluxTable(oldMatrix, state[0])
+  state.pop()
+  state.push(updatedMatrix)
   fluxTable(updatedMatrix)
 }
