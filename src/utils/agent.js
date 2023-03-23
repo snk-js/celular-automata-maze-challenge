@@ -1,3 +1,4 @@
+
 export const validateSwap = (finalPosIncrementVec, currentPosVec, matrix, rowLen, colLen) => {
   const [rowAddition, columnAddition] = finalPosIncrementVec
   const [row, column] = currentPosVec
@@ -14,11 +15,11 @@ export const validateSwap = (finalPosIncrementVec, currentPosVec, matrix, rowLen
   }
 }
 
+
 export const agentStep = (matrix, step, agentPos, rowLen, colLen) => {
-  const finalPosIncrementVec = step === 'ArrowRight' ? [0, 1] : step === 'ArrowLeft' ? [0, -1] : step === 'ArrowUp' ? [-1, 0] : step === 'ArrowDown' ? [1, 0] : [0, 0]
-  const validationResult = validateSwap(finalPosIncrementVec, agentPos, matrix, rowLen, colLen)
+  const validationResult = validateSwap(step, agentPos, matrix, rowLen, colLen)
   if (!validationResult) {
-    matrix[finalPosIncrementVec[0]][finalPosIncrementVec[1]] = 3;
+    matrix[step[0]][step[1]] = 3;
     return matrix
   }
   validationResult && (matrix[validationResult[0]][validationResult[1]] = 3)

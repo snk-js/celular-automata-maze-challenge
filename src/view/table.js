@@ -1,4 +1,6 @@
 import { agentStep } from "../utils/agent.js"
+import { allowedKeys } from '../utils/maps.js'
+
 
 export const createTable = (cellsMatrix) => {
   const table = document.createElement('table')
@@ -46,7 +48,7 @@ export const onTick = (event, state) => {
   const colLen = state[0][0].length
   const key = event.key
   const [newMatrix, newAgent, oldMatrix] = tick(state[0], rowLen, colLen);
-  const updatedMatrix = agentStep(newMatrix, key, newAgent, rowLen, colLen)
+  const updatedMatrix = agentStep(newMatrix, allowedKeys(key) || [0, 0], newAgent, rowLen, colLen)
   if (!updatedMatrix) fluxTable(oldMatrix, state[0])
   state.pop()
   state.push(updatedMatrix)

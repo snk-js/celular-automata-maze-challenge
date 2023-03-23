@@ -2,6 +2,8 @@
 import { onTick, createTable } from "./view/table.js";
 import { cellsMatrix } from "./utils/transforms.js";
 import { input } from "../processData.js";
+import { allowedKeys } from './utils/maps.js'
+
 
 const div = document.createElement('div');
 div.setAttribute("class", "container")
@@ -19,8 +21,7 @@ const largeInput = await cellsMatrix(await input)
 
 const initialState = [largeInput || cellsMatrix(celular_automata_input_easy)]
 
-
-document.addEventListener('keydown', (event) => onTick(event, initialState))
+document.addEventListener('keydown', (event) => allowedKeys(event.key) && onTick(event, initialState))
 
 div.appendChild(createTable(initialState[0]))
 document.getElementsByTagName('body')[0].appendChild(div)
