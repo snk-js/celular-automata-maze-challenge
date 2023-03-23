@@ -1,25 +1,25 @@
-export const getAdjacentCells = (row, col, matrix, rowLen, colLen) => {
-  const adjacentCells = [];
-  for (let i = -1; i <= 1; i++) {
-    for (let j = -1; j <= 1; j++) {
-      if (i !== 0 || j !== 0) {
-        const newRow = row + i;
-        const newCol = col + j;
-        if (newRow >= 0 && newRow < rowLen && newCol >= 0 && newCol < colLen) {
-          try {
-            adjacentCells.push(matrix[newRow] && matrix[newRow][newCol]);
+import { getIndex } from './2darray.js'
 
-          } catch (e) {
-            console.log(matrix, newRow, newCol)
-          }
-        }
+
+export const getAdjacentOnes = (row, col, matrix, rowLen, colLen) => {
+  let count = 0;
+  const directions = [
+    [-1, -1], [-1, 0], [-1, 1],
+    [0, -1], [0, 1],
+    [1, -1], [1, 0], [1, 1]
+  ];
+
+  directions.forEach(([dr, dc]) => {
+    const newRow = row + dr;
+    const newCol = col + dc;
+
+    if (newRow >= 0 && newRow < rowLen && newCol >= 0 && newCol < colLen) {
+      const index = getIndex(newRow, newCol, colLen);
+      if (matrix[index] === 1) {
+        count++;
       }
     }
-  }
-  return adjacentCells;
-};
+  });
 
-export const getAdjacentOnes = (i, j, matrix, newRowLength, newColLength) => {
-  const adjacentCells = getAdjacentCells(i, j, matrix, newRowLength, newColLength);
-  return adjacentCells.filter((cell) => cell === 1).length;
-}
+  return count;
+};

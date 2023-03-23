@@ -16,6 +16,11 @@ export const createTable = (cellsMatrix) => {
   return table
 }
 
+const flatTo2D = (flatArray, rowLen, colLen) => {
+  return Array.from({ length: rowLen }, (_, i) =>
+    flatArray.slice(i * colLen, (i + 1) * colLen)
+  );
+};
 
 
 export const resetTable = (state) => {
@@ -42,13 +47,16 @@ export const fluxTable = (newTable, state) => {
 import { tick } from "../utils/rules.js"
 
 export const onTick = (event, state) => {
+  const flatState = state[0].flat()
   const rowLen = state[0].length
   const colLen = state[0][0].length
   const key = event.key
-  const [newMatrix, newAgent, oldMatrix] = tick(state[0], rowLen, colLen);
+  const [newMatrix, newAgent, oldMatrix] = tick(flatState, rowLen, colLen);
   const updatedMatrix = agentStep(newMatrix, key, newAgent, rowLen, colLen)
-  if (!updatedMatrix) fluxTable(oldMatrix, state[0])
+  // convert oldMatrix and newMatrix again to 2d array
+  const updated2DMatrix = flatTo2D(updatedMatrix, rowLen, colLen)
+  if (!updatedMatrix) fluxTable(oldMatrix, oldMatrix)
   state.pop()
-  state.push(updatedMatrix)
-  fluxTable(updatedMatrix)
+  state.push(updated2DMatrix)
+  fluxTable(updated2DMatrix)
 }
