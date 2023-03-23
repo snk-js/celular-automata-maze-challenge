@@ -19,7 +19,6 @@ const largeInput = await cellsMatrix(await input)
 
 const initialState = [largeInput || cellsMatrix(celular_automata_input_easy)]
 
-
 document.addEventListener('keydown', (event) => onTick(event, initialState))
 
 div.appendChild(createTable(initialState[0]))

@@ -3,7 +3,7 @@ import { getAdjacentOnes } from "./adjacency.js";
 export const tick = (matrix, rowLen, colLen) => {
   const newMatrix = matrix.slice();
   const newAgent = [];
-  const startTime = performance.now();
+  performance.mark('start');
 
   for (let index = 0; index < rowLen * colLen; index++) {
     const i = Math.floor(index / colLen);
@@ -27,8 +27,10 @@ export const tick = (matrix, rowLen, colLen) => {
     }
   }
 
-  const endTime = performance.now();
-  const timeTaken = endTime - startTime;
-  console.log(`Time taken in ms: ${timeTaken}`);
+  performance.mark('end');
+  performance.measure('executionTime', 'start', 'end')
+  const entry = performance.getEntriesByName('executionTime')[0];
+  ;
+  console.log(`Time taken in high precision: ${entry.duration} ms`);
   return [newMatrix, newAgent.pop(), matrix];
 };
