@@ -1,5 +1,6 @@
 export const validateSwap = (destinationSum, currentPos, adjacencyList) => {
-  const newPos = currentPos + destinationSum;
+  const pos = currentPos.pop()
+  const newPos = pos + destinationSum;
 
   if (newPos >= 0 && newPos < adjacencyList.length) {
     if (adjacencyList[newPos][0] === false) { // If the new position is dead

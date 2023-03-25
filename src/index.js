@@ -17,7 +17,8 @@ const celular_automata_input_easy =
 0 0 0 0 1 0 0 0
 0 0 0 0 0 0 0 4`;
 
-const largeInput = await cellsMatrix(await input);
+// const largeInput = await cellsMatrix(await input);
+const largeInput = false
 const initialStateMatrix = largeInput || cellsMatrix(celular_automata_input_easy);
 const rowLen = initialStateMatrix.length;
 const colLen = initialStateMatrix[0].length;
@@ -26,21 +27,23 @@ let agentPos = [0]; // Initial position
 
 // every actions just updates this state
 // and not creates a new one in memory
-const state = initializeState(initialStateMatrix, agentPos[0], rowLen * colLen);
+const state = [initializeState(initialStateMatrix, agentPos[0], rowLen * colLen)];
 
 
 const onTick = (direction) => {
   if (!direction) return;
 
-  tick(state, colLen); // Update the state in-place
+  const currentState = state.pop();
+  const updatedState = tick(currentState, colLen);
+  state.push(updatedState);
 
-  if (validateSwap(direction, agentPos, state)) {
-    updateObserverPosition(agentPos[0], agentPos[0] + direction, state);
+  if (validateSwap(direction, agentPos, updatedState[0])) {
+    updateObserverPosition(agentPos[0], agentPos[0] + direction, state[0]);
   }
 
-  fluxTable(state, colLen); // Use the updated state
+  fluxTable(updatedState, rowLen, colLen);
 };
 document.addEventListener('keydown', (event) => onTick(allowedKeys(event.key, colLen)));
 
-div.appendChild(createTable(state, rowLen, colLen));
+div.appendChild(createTable(state[0], rowLen, colLen));
 document.getElementsByTagName('body')[0].appendChild(div);

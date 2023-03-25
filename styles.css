@@ -17,31 +17,32 @@ body {
 }
 
 .cell {
+  min-width: 3px;
+  min-height: 3px;
   width: 0.75rem;
   height: 0.75rem;
   background: rgb(17, 16, 16);
   padding: 2px;
   border-radius: 10px;
 }
+.cell[state="alive"] {
+  background-color: rgba(75, 247, 146, 0.486);
+}
 
 .cell[state="dead"] {
-  background: rgb(17, 16, 16)
+  background-color: rgba(26, 6, 6, 0.699);
 }
 
-.cell[state="alive"] {
-  background: rgb(124, 247, 185)
+.starting-point {
+  background-color: green;
 }
 
-.cell[state="starting-point"] {
-  background: rgb(12, 180, 63)
-}
-
-.cell[state="starting-point-with-observer"] {
-  background: rgb(12, 180, 63);
+.starting-point-with-observer {
+  background-color: rgb(46, 255, 46);
   position: relative;
 }
 
-.cell[state="starting-point-with-observer"]::before {
+.starting-point-with-observer::before {
   content: ' ';
   width: 5px;
   height: 5px;
@@ -54,12 +55,16 @@ body {
   box-shadow: 0 0 15px 15px rgba(255, 15, 223, 0.486);
 }
 
-.cell[state="observer"] {
-  position: relative;
-  background: rgba(0, 0, 0, 0.171);
+.target-point {
+  background-color: red !important;
 }
 
-.cell[state="observer"]::before {
+.target-point-with-observer {
+  background-color: darkred;
+  position: relative;
+}
+
+.target-point-with-observer::before {
   content: ' ';
   width: 5px;
   height: 5px;
@@ -72,20 +77,16 @@ body {
   box-shadow: 0 0 15px 15px rgba(255, 15, 223, 0.486);
 }
 
-.cell[state="target-point"] {
-  background: rgb(12, 180, 63)
+.observer {
+  position: relative !important;
+  background: rgba(0, 0, 0, 0.171) !important;
 }
 
-.cell[state="target-point-with-observer"] {
-  background: rgb(12, 180, 63);
-  position: relative;
-}
-
-.cell[state="target-point-with-observer"]::before {
+.observer::before {
   content: ' ';
   width: 5px;
   height: 5px;
-  background: rgb(255, 227, 105);
+  background: rgb(255, 227, 105) !important;
   border-radius: 50%;
   animation: float 2s ease-in-out infinite;
   position: absolute;
@@ -93,6 +94,8 @@ body {
   left: 45%;
   box-shadow: 0 0 15px 15px rgba(255, 15, 223, 0.486);
 }
+
+
 
 @keyframes float {
   0% {
