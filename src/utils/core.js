@@ -1,8 +1,7 @@
 
 import { getNeighborsFromList, getNeighborsFromMatrix } from './adjacency.js'
-import { listToIndex } from './transforms.js'
 
-export const initializeState = (matrix, startingPoint, targetPoint) => {
+export const initializeState = (matrix) => {
   const adjacencyList = [];
   const rowLen = matrix.length;
   const colLen = matrix[0].length;

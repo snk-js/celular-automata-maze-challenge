@@ -27,7 +27,7 @@ let agentPos = [0]; // Initial position
 
 // every actions just updates this state
 // and not creates a new one in memory
-const state = [initializeState(initialStateMatrix, agentPos[0], rowLen * colLen)];
+const state = [initializeState(initialStateMatrix)];
 
 
 const onTick = (direction) => {
@@ -37,8 +37,8 @@ const onTick = (direction) => {
   const updatedState = tick(currentState, colLen);
   state.push(updatedState);
 
-  if (validateSwap(direction, agentPos, updatedState[0])) {
-    updateObserverPosition(agentPos[0], agentPos[0] + direction, state[0]);
+  if (validateSwap(direction, agentPos[0], updatedState)) {
+    updateObserverPosition(agentPos, agentPos[0] + direction, state[0]);
   }
 
   fluxTable(updatedState, rowLen, colLen);
