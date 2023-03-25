@@ -32,21 +32,16 @@ body {
   background: rgb(124, 247, 185)
 }
 
-.cell[state="4"] {
+.cell[starting-point] {
   background: rgb(12, 180, 63)
 }
 
-
-
-/* example of before */
-
-
-.cell[state="observer"] {
+.cell[starting-point-with-observer] {
+  background: rgb(12, 180, 63);
   position: relative;
-  background: rgba(0, 0, 0, 0.171);
 }
 
-.cell[state="observer"]::before {
+.cell[starting-point-with-observer]::before {
   content: ' ';
   width: 5px;
   height: 5px;
@@ -57,7 +52,46 @@ body {
   top: 50%;
   left: 45%;
   box-shadow: 0 0 15px 15px rgba(255, 15, 223, 0.486);
+}
 
+.cell[observer] {
+  position: relative;
+  background: rgba(0, 0, 0, 0.171);
+}
+
+.cell[observer]::before {
+  content: ' ';
+  width: 5px;
+  height: 5px;
+  background: rgb(255, 227, 105);
+  border-radius: 50%;
+  animation: float 2s ease-in-out infinite;
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  box-shadow: 0 0 15px 15px rgba(255, 15, 223, 0.486);
+}
+
+.cell[target-point] {
+  background: rgb(12, 180, 63)
+}
+
+.cell[target-point-with-observer] {
+  background: rgb(12, 180, 63);
+  position: relative;
+}
+
+.cell[target-point-with-observer]::before {
+  content: ' ';
+  width: 5px;
+  height: 5px;
+  background: rgb(255, 227, 105);
+  border-radius: 50%;
+  animation: float 2s ease-in-out infinite;
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  box-shadow: 0 0 15px 15px rgba(255, 15, 223, 0.486);
 }
 
 @keyframes float {

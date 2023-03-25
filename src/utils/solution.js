@@ -1,13 +1,9 @@
-
 import PriorityQueue from './priorityQueue';
 import { listToIndex, indexToList } from './transforms'
 
 const heuristic = (a, b) => {
   return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
 }
-
-
-// TODO: import getNeighbors
 
 const aStar = (list, start, target, rowLen, colLen) => {
   const queue = new PriorityQueue();
