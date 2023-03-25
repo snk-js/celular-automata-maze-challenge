@@ -1,31 +1,30 @@
-import { getIndex } from './2darray.js'
-
-export const validateSwap = (finalPosIncrementVec, currentPosVec, matrix, rowLen, colLen) => {
-  const [rowAddition, columnAddition] = finalPosIncrementVec;
-  const [row, column] = currentPosVec;
-  const [finalRow, finalColumn] = [row + rowAddition, column + columnAddition];
-  if (finalRow >= 0 && finalRow < rowLen && finalColumn >= 0 && finalColumn < colLen) {
-    const index = getIndex(finalRow, finalColumn, colLen);
-    if (matrix[index] !== 0) {
-      return false;
-    } else {
-      return [finalRow, finalColumn];
-    }
-  } else {
-    // 'out of bounds'
+export const validateSwap = (destinationSum, currentPosArr, adjacencyList) => {
+  if (!currentPosArr.length) {
     return false;
   }
+
+  const currentPos = currentPosArr.pop();
+  const newPos = currentPos + destinationSum;
+
+  if (newPos >= 0 && newPos < adjacencyList.length) {
+    if (adjacencyList[newPos][0] === false) { // If the new position is dead
+      currentPosArr.push(newPos);
+      return true
+    }
+  }
+
+  currentPosArr.push(currentPos);
+  return false;
 };
 
-export const agentStep = (matrix, step, agentPos, rowLen, colLen) => {
-  const finalPosIncrementVec = step === 'ArrowRight' ? [0, 1] : step === 'ArrowLeft' ? [0, -1] : step === 'ArrowUp' ? [-1, 0] : step === 'ArrowDown' ? [1, 0] : [0, 0];
-  const validationResult = validateSwap(finalPosIncrementVec, agentPos, matrix, rowLen, colLen);
-  if (!validationResult) {
-    const index = getIndex(agentPos[0] + finalPosIncrementVec[0], agentPos[1] + finalPosIncrementVec[1], colLen);
-    matrix[index] = 3;
-    return matrix;
+export const updateObserverPosition = (currentPos, newPos, list) => {
+  // Erase the 2 from the old position and add it to the new one
+  if (list[currentPos][2] === "2") {
+    list[currentPos][2] = undefined;
   }
-  const finalIndex = getIndex(validationResult[0], validationResult[1], colLen);
-  matrix[finalIndex] = 3;
-  return matrix;
+  if (list[newPos][2] === "4") {
+    list[newPos][2] = "5";
+  } else {
+    list[newPos][2] = "3";
+  }
 };

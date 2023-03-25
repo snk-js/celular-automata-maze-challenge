@@ -24,11 +24,11 @@ body {
   border-radius: 10px;
 }
 
-.cell[state="0"] {
+.cell[state="dead"] {
   background: rgb(17, 16, 16)
 }
 
-.cell[state="1"] {
+.cell[state="alive"] {
   background: rgb(124, 247, 185)
 }
 
@@ -41,12 +41,12 @@ body {
 /* example of before */
 
 
-.cell[state="3"] {
+.cell[state="observer"] {
   position: relative;
   background: rgba(0, 0, 0, 0.171);
 }
 
-.cell[state="3"]::before {
+.cell[state="observer"]::before {
   content: ' ';
   width: 5px;
   height: 5px;
