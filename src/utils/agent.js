@@ -1,19 +1,12 @@
-export const validateSwap = (destinationSum, currentPosArr, adjacencyList) => {
-  if (!currentPosArr.length) {
-    return false;
-  }
-
-  const currentPos = currentPosArr.pop();
+export const validateSwap = (destinationSum, currentPos, adjacencyList) => {
   const newPos = currentPos + destinationSum;
 
   if (newPos >= 0 && newPos < adjacencyList.length) {
     if (adjacencyList[newPos][0] === false) { // If the new position is dead
-      currentPosArr.push(newPos);
-      return true
+      return true;
     }
   }
 
-  currentPosArr.push(currentPos);
   return false;
 };
 

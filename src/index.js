@@ -32,13 +32,13 @@ const state = initializeState(initialStateMatrix, agentPos[0], rowLen * colLen);
 const onTick = (direction) => {
   if (!direction) return;
 
-  tick(state, rowLen, colLen); // Update the state in-place
+  tick(state, colLen); // Update the state in-place
 
   if (validateSwap(direction, agentPos, state)) {
     updateObserverPosition(agentPos[0], agentPos[0] + direction, state);
   }
 
-  fluxTable(state, rowLen, colLen); // Use the updated state
+  fluxTable(state, colLen); // Use the updated state
 };
 document.addEventListener('keydown', (event) => onTick(allowedKeys(event.key, colLen)));
 

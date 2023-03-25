@@ -18,11 +18,7 @@ export const createTable = (adjacencyList, rowLen, colLen) => {
       const [cellState, _, cellCharacteristic] = adjacencyList[index];
       const td = document.createElement("td");
       td.setAttribute("class", "cell");
-      td.setAttribute("state", cellState ? "alive" : "dead");
-
-      if (cellCharacteristic) {
-        td.classList.add(getCharacteristic[cellCharacteristic]);
-      }
+      td.setAttribute("state", cellCharacteristic ? getCharacteristic[cellCharacteristic] : cellState ? "alive" : "dead");
 
       tr.appendChild(td);
     }
@@ -37,5 +33,5 @@ export const createTable = (adjacencyList, rowLen, colLen) => {
 export const fluxTable = (state, rowLen, colLen) => {
   const oldTable = document.getElementsByTagName('table')[0];
   const newTable = createTable(state, rowLen, colLen);
-  oldTable && oldTable.parentNode.replaceChild(newTable, oldTable);
+  newTable && oldTable.parentNode.replaceChild(newTable, oldTable);
 };

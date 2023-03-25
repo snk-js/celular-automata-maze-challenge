@@ -32,16 +32,16 @@ body {
   background: rgb(124, 247, 185)
 }
 
-.cell[starting-point] {
+.cell[state="starting-point"] {
   background: rgb(12, 180, 63)
 }
 
-.cell[starting-point-with-observer] {
+.cell[state="starting-point-with-observer"] {
   background: rgb(12, 180, 63);
   position: relative;
 }
 
-.cell[starting-point-with-observer]::before {
+.cell[state="starting-point-with-observer"]::before {
   content: ' ';
   width: 5px;
   height: 5px;
@@ -54,12 +54,12 @@ body {
   box-shadow: 0 0 15px 15px rgba(255, 15, 223, 0.486);
 }
 
-.cell[observer] {
+.cell[state="observer"] {
   position: relative;
   background: rgba(0, 0, 0, 0.171);
 }
 
-.cell[observer]::before {
+.cell[state="observer"]::before {
   content: ' ';
   width: 5px;
   height: 5px;
@@ -72,16 +72,16 @@ body {
   box-shadow: 0 0 15px 15px rgba(255, 15, 223, 0.486);
 }
 
-.cell[target-point] {
+.cell[state="target-point"] {
   background: rgb(12, 180, 63)
 }
 
-.cell[target-point-with-observer] {
+.cell[state="target-point-with-observer"] {
   background: rgb(12, 180, 63);
   position: relative;
 }
 
-.cell[target-point-with-observer]::before {
+.cell[state="target-point-with-observer"]::before {
   content: ' ';
   width: 5px;
   height: 5px;
