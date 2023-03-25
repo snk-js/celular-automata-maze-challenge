@@ -1,31 +1,8 @@
 
-export const getNeighbors = (row, col, matrix) => {
-  let adjacentOnes = 0
-  const result = []
-  const neighbors = [
-    [row - 1, col], // Up
-    [row + 1, col], // Down
-    [row, col - 1], // Left
-    [row, col + 1], // Right
-    [row - 1, col - 1], // Up Left
-    [row - 1, col + 1], // Up Right
-    [row + 1, col - 1], // Down Left
-    [row + 1, col + 1], // Down Right
-  ];
-  for (const [neighborRow, neighborCol] of neighbors) {
-    const neighbor = matrix[neighborRow] && matrix[neighborRow][neighborCol] && result.push([neighborRow, neighborCol])
 
-    if (neighbor === 1) {
-      adjacentOnes += 1
-    }
-  }
-  return adjacentOnes
-}
-
-export const getNeighborsFromList = (index, list, rowLen, colLen) => {
+export const getNeighborsFromList = (index, list, colLen) => {
   const lives = [];
   const dead = [];
-  const [_, col] = [Math.floor(index / colLen), index % colLen];
 
   const neighbors = [
     index - colLen, // Up

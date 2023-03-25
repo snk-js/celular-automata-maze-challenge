@@ -1,5 +1,16 @@
 
-export const allowedKeys = (entry) => [["ArrowRight", [0, 1]], ["ArrowLeft", [0, -1]], ["ArrowUp", [-1, 0]], ["ArrowDown", [1, 0]]].reduce((acc, [key, move]) => {
-  acc[key] = move
-  return acc
-}, {})[entry]
+export const allowedKeys = (entry, colLen) => {
+  const keysToMoves = [
+    ["ArrowRight", listToIndex(0, 1, colLen)],
+    ["ArrowLeft", listToIndex(0, -1, colLen)],
+    ["ArrowUp", listToIndex(-1, 0, colLen)],
+    ["ArrowDown", listToIndex(1, 0, colLen)],
+  ];
+
+  const movesMap = keysToMoves.reduce((acc, [key, move]) => {
+    acc[key] = move;
+    return acc;
+  }, {});
+
+  return movesMap[entry];
+};

@@ -1,42 +1,32 @@
 
 
 
-export const createTable = (cellsMatrix) => {
-  const table = document.createElement('table')
-  table.setAttribute("class", "table")
-  cellsMatrix.forEach((row) => {
-    const tr = document.createElement('tr')
-    row.forEach((cell) => {
-      const td = document.createElement('td')
-      td.setAttribute("class", "cell")
-      td.setAttribute("state", cell)
-      tr.appendChild(td)
-    })
-    table.appendChild(tr)
-  })
-  return table
-}
+export const createTable = (adjacencyList, rowLen, colLen) => {
+  const table = document.createElement("table");
+  table.setAttribute("class", "table");
 
+  for (let i = 0; i < rowLen; i++) {
+    const tr = document.createElement("tr");
 
+    for (let j = 0; j < colLen; j++) {
+      const index = i * colLen + j;
+      const [cellState] = adjacencyList[index];
+      const td = document.createElement("td");
+      td.setAttribute("class", "cell");
+      td.setAttribute("state", cellState ? "alive" : "dead");
+      tr.appendChild(td);
+    }
 
-export const resetTable = (state) => {
-  const oldTable = document.getElementsByTagName('table')[0]
-  oldTable.remove()
-  state.pop()
-  state.push(cellsMatrix(celular_automata_input_easy))
-  div.appendChild(createTable(initialState[0]))
-}
+    table.appendChild(tr);
+  }
+
+  return table;
+};
+
 
 export const fluxTable = (newTable, state) => {
   const oldTable = document.getElementsByTagName('table')[0]
-  if (!newTable) {
-    resetTable(state)
-    return
-  }
-  if (newTable === 'out of bounds') {
-    newTable && oldTable.parentNode.replaceChild(oldTable, oldTable)
-    return
-  }
+
   newTable && oldTable.parentNode.replaceChild(createTable(newTable), oldTable)
 }
 

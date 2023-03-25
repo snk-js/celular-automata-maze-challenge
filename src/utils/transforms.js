@@ -19,3 +19,11 @@ export const adjacencyListTo2DArray = (adjacencyList, rowLen, colLen) => {
   return matrix;
 };
 
+
+export const listToIndex = (row, col, colLen) => {
+  return row * colLen + col;
+}
+
+export const indexToList = (index, colLen) => {
+  return [Math.floor(index / colLen), index % colLen];
+}

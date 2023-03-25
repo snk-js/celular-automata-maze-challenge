@@ -1,14 +1,12 @@
-
 import { createTable, fluxTable } from "./view/table.js";
 import { cellsMatrix, adjacencyListTo2DArray } from "./utils/transforms.js";
 import { input } from "../processData.js";
-import { allowedKeys } from './utils/maps.js'
-import { array2DToAdjacencyList, tick } from './utils/graph.js'
-import { agentStep } from './utils/agent.js'
-
+import { allowedKeys } from './utils/maps.js';
+import { initializeState, tick } from './utils/graph.js';
+import { validateSwap, updateObserverPosition } from './utils/agent.js';
 
 const div = document.createElement('div');
-div.setAttribute("class", "container")
+div.setAttribute("class", "container");
 
 const celular_automata_input_easy =
   `3 0 0 0 0 0 0 0
@@ -17,34 +15,34 @@ const celular_automata_input_easy =
 0 1 1 0 0 1 1 0
 0 0 1 0 1 1 0 0
 0 0 0 0 1 0 0 0
-0 0 0 0 0 0 0 4`
+0 0 0 0 0 0 0 4`;
 
-const largeInput = await cellsMatrix(await input)
+const largeInput = await cellsMatrix(await input);
+const initialStateMatrix = largeInput || cellsMatrix(celular_automata_input_easy);
+const rowLen = initialStateMatrix.length;
+const colLen = initialStateMatrix[0].length;
 
-const initialState = [largeInput || cellsMatrix(celular_automata_input_easy)]
+let agentPos = [0]; // Initial position
+const initialState = initializeState(initialStateMatrix, agentPos[0], rowLen * colLen);
 
-const getGraph = () => array2DToAdjacencyList(initialState[0])
+const getGraph = () => initialState;
 
-const agentPos = [[0, 0]]
 
 const onTick = (direction) => {
-  if (!direction) return
-  const rowLen = initialState[0].length
-  const colLen = initialState[0][0].length
+  if (!direction) return;
 
   const newAdjacencyList = tick(getGraph(), rowLen, colLen);
-  const updated2DMatrix = adjacencyListTo2DArray(newAdjacencyList, rowLen, colLen)
 
-  const step = agentStep(updated2DMatrix, direction, agentPos, rowLen, colLen)
+  const newPos = validateSwap(direction, agentPos, newAdjacencyList, rowLen, colLen);
 
-  console.log(initialState);
-  if (!step) { fluxTable(initialState[0]); return };
-  initialState.pop()
-  initialState.push(step) && fluxTable(initialState[0]);
-}
+  // if newPos is valida (true), use updateObserverPosition to update the adjacency list with the new position
+  // if not, back everything to the previous state
+  agentPos = updateObserverPosition(agentPos, newPos);
 
-document.addEventListener('keydown', (event) => onTick(allowedKeys(event.key), initialState))
+  fluxTable(adjacencyListTo2DArray(newAdjacencyList, rowLen, colLen));
+};
 
-div.appendChild(createTable(initialState[0]))
-document.getElementsByTagName('body')[0].appendChild(div)
+document.addEventListener('keydown', (event) => onTick(allowedKeys(event.key, colLen)));
 
+div.appendChild(createTable(initialState, rowLen, colLen));
+document.getElementsByTagName('body')[0].appendChild(div);
