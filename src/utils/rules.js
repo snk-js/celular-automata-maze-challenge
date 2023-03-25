@@ -3,9 +3,7 @@ import { getAdjacentOnes } from "./adjacency.js";
 export const tick = (matrix, rowLen, colLen) => {
   const newMatrix = matrix.map((row) => row.slice());
   const newAgent = []
-  // measure time for each tick
-  const startTime = performance.now();
-  console.log(rowLen, colLen)
+
 
   for (let i = 0; i < rowLen; i++) {
     for (let j = 0; j < colLen; j++) {
@@ -28,9 +26,7 @@ export const tick = (matrix, rowLen, colLen) => {
       }
     }
   }
-  const endTime = performance.now();
-  const timeTaken = endTime - startTime;
-  console.log(`Time taken in ms: ${timeTaken}`);
+
   return [newMatrix, newAgent.pop(), matrix]
 };
 

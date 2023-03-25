@@ -1,5 +1,4 @@
-import { agentStep } from "../utils/agent.js"
-import { allowedKeys } from '../utils/maps.js'
+
 
 
 export const createTable = (cellsMatrix) => {
@@ -41,16 +40,3 @@ export const fluxTable = (newTable, state) => {
   newTable && oldTable.parentNode.replaceChild(createTable(newTable), oldTable)
 }
 
-import { tick } from "../utils/rules.js"
-
-export const onTick = (event, state) => {
-  const rowLen = state[0].length
-  const colLen = state[0][0].length
-  const key = event.key
-  const [newMatrix, newAgent, oldMatrix] = tick(state[0], rowLen, colLen);
-  const updatedMatrix = agentStep(newMatrix, allowedKeys(key) || [0, 0], newAgent, rowLen, colLen)
-  if (!updatedMatrix) fluxTable(oldMatrix, state[0])
-  state.pop()
-  state.push(updatedMatrix)
-  fluxTable(updatedMatrix)
-}

@@ -4,3 +4,18 @@ export const cellsMatrix = (input) => {
   return splited
 }
 
+export const adjacencyListTo2DArray = (adjacencyList, rowLen, colLen) => {
+  const matrix = [];
+
+  for (let i = 0; i < rowLen; i++) {
+    const row = [];
+    for (let j = 0; j < colLen; j++) {
+      const index = i * colLen + j;
+      row.push(adjacencyList[index][0] ? 1 : 0);
+    }
+    matrix.push(row);
+  }
+
+  return matrix;
+};
+
