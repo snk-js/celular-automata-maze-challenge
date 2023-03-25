@@ -23,26 +23,24 @@ const rowLen = initialStateMatrix.length;
 const colLen = initialStateMatrix[0].length;
 
 let agentPos = [0]; // Initial position
-const initialState = initializeState(initialStateMatrix, agentPos[0], rowLen * colLen);
 
-const getGraph = () => initialState;
+// every actions just updates this state
+// and not creates a new one in memory
+const state = initializeState(initialStateMatrix, agentPos[0], rowLen * colLen);
 
 
 const onTick = (direction) => {
   if (!direction) return;
 
-  const newAdjacencyList = tick(getGraph(), rowLen, colLen);
+  tick(state, rowLen, colLen); // Update the state in-place
 
-  const newPos = validateSwap(direction, agentPos, newAdjacencyList, rowLen, colLen);
+  if (validateSwap(direction, agentPos, state)) {
+    updateObserverPosition(agentPos[0], agentPos[0] + direction, state);
+  }
 
-  // if newPos is valida (true), use updateObserverPosition to update the adjacency list with the new position
-  // if not, back everything to the previous state
-  agentPos = updateObserverPosition(agentPos, newPos);
-
-  fluxTable(adjacencyListTo2DArray(newAdjacencyList, rowLen, colLen));
+  fluxTable(state, rowLen, colLen); // Use the updated state
 };
-
 document.addEventListener('keydown', (event) => onTick(allowedKeys(event.key, colLen)));
 
-div.appendChild(createTable(initialState, rowLen, colLen));
+div.appendChild(createTable(state, rowLen, colLen));
 document.getElementsByTagName('body')[0].appendChild(div);

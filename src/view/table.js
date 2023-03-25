@@ -24,9 +24,8 @@ export const createTable = (adjacencyList, rowLen, colLen) => {
 };
 
 
-export const fluxTable = (newTable, state) => {
-  const oldTable = document.getElementsByTagName('table')[0]
-
-  newTable && oldTable.parentNode.replaceChild(createTable(newTable), oldTable)
-}
-
+export const fluxTable = (state, rowLen, colLen) => {
+  const oldTable = document.getElementsByTagName('table')[0];
+  const newTable = createTable(state, rowLen, colLen);
+  oldTable && oldTable.parentNode.replaceChild(newTable, oldTable);
+};

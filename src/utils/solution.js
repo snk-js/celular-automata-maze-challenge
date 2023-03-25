@@ -1,6 +1,6 @@
 
 import PriorityQueue from './priorityQueue';
-import {listToIndex, indexToList} from './transforms'
+import { listToIndex, indexToList } from './transforms'
 
 const heuristic = (a, b) => {
   return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
