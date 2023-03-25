@@ -1,4 +1,6 @@
 
+import { listToIndex } from './transforms.js';
+
 export const allowedKeys = (entry, colLen) => {
   const keysToMoves = [
     ["ArrowRight", listToIndex(0, 1, colLen)],

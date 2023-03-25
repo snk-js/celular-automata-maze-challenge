@@ -1,5 +1,5 @@
 
-import { getNeighborsFromList } from './adjacency'
+import { getNeighborsFromList } from './adjacency.js'
 export const initializeState = (matrix, startingPoint, targetPoint) => {
   const adjacencyList = [];
   const rowLen = matrix.length;
@@ -27,3 +27,20 @@ export const initializeState = (matrix, startingPoint, targetPoint) => {
 
   return adjacencyList;
 }
+
+
+export const tick = (adjacencyList, colLen) => {
+  adjacencyList.forEach(([live, [alives]], index) => {
+    const livingNeighbors = alives.length;
+    if (!live && livingNeighbors > 1 && livingNeighbors < 5) {
+      adjacencyList[index][0] = true
+    } else if (live && !(livingNeighbors > 3 && livingNeighbors < 5)) {
+      adjacencyList[index][0] = false
+    } else {
+      adjacencyList[index][0] = live
+    }
+    adjacencyList[index][1] = getNeighborsFromList(index, adjacencyList, colLen);
+  });
+
+  return true;
+};

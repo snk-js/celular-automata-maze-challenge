@@ -1,8 +1,8 @@
 import { createTable, fluxTable } from "./view/table.js";
-import { cellsMatrix, adjacencyListTo2DArray } from "./utils/transforms.js";
+import { cellsMatrix } from "./utils/transforms.js";
 import { input } from "../processData.js";
 import { allowedKeys } from './utils/maps.js';
-import { initializeState, tick } from './utils/graph.js';
+import { initializeState, tick } from './utils/core.js';
 import { validateSwap, updateObserverPosition } from './utils/agent.js';
 
 const div = document.createElement('div');

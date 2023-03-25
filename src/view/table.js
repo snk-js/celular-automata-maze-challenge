@@ -9,10 +9,15 @@ export const createTable = (adjacencyList, rowLen, colLen) => {
 
     for (let j = 0; j < colLen; j++) {
       const index = i * colLen + j;
-      const [cellState] = adjacencyList[index];
+      const [cellState, _, cellCharacteristic] = adjacencyList[index];
       const td = document.createElement("td");
       td.setAttribute("class", "cell");
       td.setAttribute("state", cellState ? "alive" : "dead");
+
+      if (cellCharacteristic) {
+        td.classList.add("cell-" + cellCharacteristic);
+      }
+
       tr.appendChild(td);
     }
 
