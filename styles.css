@@ -34,56 +34,24 @@ body {
 }
 
 .starting-point {
-  background-color: green;
+  background: rgba(255, 227, 105, 0.5) !important;
+  overflow: hidden; 
 }
 
-.starting-point-with-observer {
-  background-color: rgb(46, 255, 46);
-  position: relative;
-}
-
-.starting-point-with-observer::before {
-  content: ' ';
-  width: 5px;
-  height: 5px;
-  background: rgb(255, 227, 105);
-  border-radius: 50%;
-  animation: float 2s ease-in-out infinite;
-  position: absolute;
-  top: 50%;
-  left: 45%;
-  box-shadow: 0 0 15px 15px rgba(255, 15, 223, 0.486);
-}
 
 .target-point {
-  background-color: red !important;
-}
-
-.target-point-with-observer {
-  background-color: darkred;
+  background: rgba(177, 12, 12, 0.658) !important;
   position: relative;
 }
 
-.target-point-with-observer::before {
-  content: ' ';
-  width: 5px;
-  height: 5px;
-  background: rgb(255, 227, 105);
-  border-radius: 50%;
-  animation: float 2s ease-in-out infinite;
-  position: absolute;
-  top: 50%;
-  left: 45%;
-  box-shadow: 0 0 15px 15px rgba(255, 15, 223, 0.486);
-}
 
 .observer {
   position: relative !important;
-  background: rgba(0, 0, 0, 0.171) !important;
 }
 
 .observer::before {
   content: ' ';
+  z-index: 5;
   width: 5px;
   height: 5px;
   background: rgb(255, 227, 105) !important;

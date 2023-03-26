@@ -1,10 +1,10 @@
 
 const getCharacteristic = {
-  "1": "starting-point",
-  "2": "starting-point-with-observer",
-  "3": "observer",
-  "4": "target-point",
-  "5": "target-point-with-observer"
+  "1": ["starting-point"],
+  "2": ["starting-point", "observer"],
+  "3": ["observer"],
+  "4": ["target-point"],
+  "5": ["target-point", "observer"]
 }
 
 export const createTable = (adjacencyList, rowLen, colLen) => {
@@ -15,13 +15,16 @@ export const createTable = (adjacencyList, rowLen, colLen) => {
     const tr = document.createElement("tr");
     for (let j = 0; j < colLen; j++) {
       const index = i * colLen + j;
+
       const [cellState, _, cellCharacteristic] = adjacencyList[index];
       const td = document.createElement("td");
       td.setAttribute("class", "cell");
       td.setAttribute("state", cellState ? "alive" : "dead");
 
       if (cellCharacteristic) {
-        td.classList.add(getCharacteristic[cellCharacteristic]);
+        getCharacteristic[cellCharacteristic].map((detail) => {
+          return td.classList.add(detail)
+        })
       }
 
       tr.appendChild(td);
