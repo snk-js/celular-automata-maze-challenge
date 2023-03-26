@@ -15,12 +15,6 @@ export const createTable = (adjacencyList, rowLen, colLen) => {
     const tr = document.createElement("tr");
     for (let j = 0; j < colLen; j++) {
       const index = i * colLen + j;
-      try {
-        const [cellState, _, cellCharacteristic] = adjacencyList[index];
-
-      } catch (e) {
-        console.log(e);
-      }
       const [cellState, _, cellCharacteristic] = adjacencyList[index];
       const td = document.createElement("td");
       td.setAttribute("class", "cell");

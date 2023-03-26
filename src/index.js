@@ -3,7 +3,7 @@ import { cellsMatrix } from "./utils/transforms.js";
 import { input } from "../processData.js";
 import { allowedKeys } from './utils/maps.js';
 import { initializeState, tick } from './utils/core.js';
-import { validateSwap, updateObserverPosition } from './utils/agent.js';
+import { validateSwap } from './utils/agent.js';
 
 const div = document.createElement('div');
 div.setAttribute("class", "container");
@@ -32,16 +32,21 @@ const state = [initializeState(initialStateMatrix)];
 
 const onTick = (direction) => {
   if (!direction) return;
-
   const currentState = state.pop();
   const updatedState = tick(currentState, colLen);
   state.push(updatedState);
 
-  if (validateSwap(direction, agentPos[0], updatedState)) {
-    updateObserverPosition(agentPos, agentPos[0] + direction, state[0]);
+  const reset = () => {
+    console.log
+    state.pop();
+    state.push(currentState)
+    fluxTable(currentState, rowLen, colLen);
   }
 
-  fluxTable(updatedState, rowLen, colLen);
+
+  const validStep = validateSwap(direction, agentPos, updatedState)
+
+  validStep ? fluxTable(updatedState, rowLen, colLen) : reset()
 };
 document.addEventListener('keydown', (event) => onTick(allowedKeys(event.key, colLen)));
 

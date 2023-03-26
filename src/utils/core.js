@@ -28,10 +28,10 @@ export const tick = (adjacencyList, colLen) => {
     const livingNeighbors = alives.length;
     if (!live && livingNeighbors > 1 && livingNeighbors < 5) {
       updatedList[index][0] = true;
-    } else if (live && !(livingNeighbors > 3 && livingNeighbors < 5)) {
-      updatedList[index][0] = false;
+    } else if (live && livingNeighbors > 3 && livingNeighbors < 6) {
+      updatedList[index][0] = true;
     } else {
-      updatedList[index][0] = live;
+      updatedList[index][0] = false;
     }
     updatedList[index][1] = getNeighborsFromList(index, adjacencyList, colLen);
   });
