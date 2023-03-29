@@ -17,8 +17,8 @@ const celular_automata_input_easy =
 0 0 0 0 1 0 0 0
 0 0 0 0 0 0 0 4`;
 
-// const largeInput = await cellsMatrix(await input);
-const largeInput = false
+const largeInput = await cellsMatrix(await input);
+// const largeInput = false
 const initialStateMatrix = largeInput || cellsMatrix(celular_automata_input_easy);
 const rowLen = initialStateMatrix.length;
 const colLen = initialStateMatrix[0].length;
@@ -37,12 +37,10 @@ const onTick = (direction) => {
   state.push(updatedState);
 
   const reset = () => {
-    console.log
     state.pop();
     state.push(currentState)
     fluxTable(currentState, rowLen, colLen);
   }
-
 
   const validStep = validateSwap(direction, agentPos, updatedState)
 

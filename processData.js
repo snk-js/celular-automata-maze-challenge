@@ -1,9 +1,3 @@
-// const cellsMatrix = require('./src/utils/transforms')
-
-// const result = fs.readFileSync('data', { encoding: 'utf8', flag: 'r' })
-
-// export const input = cellsMatrix(result)
-
 
 const loadTextFile = async (url) => {
   try {

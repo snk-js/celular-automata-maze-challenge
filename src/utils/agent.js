@@ -1,7 +1,6 @@
 export const validateSwap = (destinationSum, currentPos, adjacencyList) => {
   const pos = currentPos.pop()
   const newPos = pos + destinationSum;
-  console.log(adjacencyList)
   if (newPos >= 0 && newPos < adjacencyList.length && !adjacencyList[newPos][0]) {
     currentPos.push(newPos);
     updateObserverPosition(pos, newPos, adjacencyList)

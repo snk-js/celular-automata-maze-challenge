@@ -33,7 +33,10 @@ export const tick = (adjacencyList, colLen) => {
     } else {
       updatedList[index][0] = false;
     }
-    updatedList[index][1] = getNeighborsFromList(index, adjacencyList, colLen);
+  });
+
+  updatedList.forEach((_, index) => {
+    updatedList[index][1] = getNeighborsFromList(index, updatedList, colLen);
   });
 
   return updatedList;

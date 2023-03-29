@@ -17,3 +17,14 @@ export const allowedKeys = (entry, colLen) => {
 
   return movesMap[entry];
 };
+
+export const createIndexMap = (rowLen, colLen) => {
+  const indexMap = new Map();
+  for (let row = 0; row < rowLen; row++) {
+    for (let col = 0; col < colLen; col++) {
+      const listIndex = row * colLen + col;
+      indexMap.set(listIndex, [row, col]);
+    }
+  }
+  return indexMap;
+};

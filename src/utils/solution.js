@@ -1,57 +1,63 @@
-import PriorityQueue from './priorityQueue';
-import { listToIndex, indexToList } from './transforms'
+import { indexToList } from "./maps";
 
-const heuristic = (a, b) => {
-  return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
+function heuristic(current, target, colLen) {
+  const [currentRow, currentCol] = indexToList(current, colLen);
+  const [targetRow, targetCol] = indexToList(target, colLen);
+  return Math.abs(currentRow - targetRow) + Math.abs(currentCol - targetCol);
 }
 
-const aStar = (list, start, target, rowLen, colLen) => {
-  const queue = new PriorityQueue();
-  queue.enqueue(start, 0);
-  const cameFrom = new Map();
-  const gScore = new Map();
-  const fScore = new Map();
 
-  for (let index = 0; index < rowLen * colLen; index++) {
-    gScore.set(index, Infinity);
-    fScore.set(index, Infinity);
+function isReachableInKSteps(state, start, target, getNextState, k) {
+  if (k === 0) return false;
+
+  let nextState = getNextState(state, 1);
+  let neighbors = nextState[start][1];
+
+  for (let neighbor of neighbors) {
+    if (neighbor === target) return true;
+    if (isReachableInKSteps(nextState, neighbor, target, getNextState, k - 1)) return true;
   }
 
-  const startIndex = listToIndex(start[0], start[1], colLen);
-  const targetIndex = listToIndex(target[0], target[1], colLen);
+  return false;
+}
 
-  gScore.set(startIndex, 0);
-  fScore.set(startIndex, heuristic(start, target));
+function heuristicWithFutureSteps(current, target, state, getNextState, colLen, k) {
+  const baseHeuristic = heuristic(current, target, colLen);
 
-  while (!queue.isEmpty()) {
-    const current = queue.dequeue();
-    if (current === targetIndex) {
-      // Target reached, reconstruct path
-      const path = [current];
-      while (cameFrom.has(current)) {
-        current = cameFrom.get(current);
-        path.unshift(current);
+  if (isReachableInKSteps(state, current, target, getNextState, k)) {
+    return baseHeuristic;
+  } else {
+    return baseHeuristic + 1000; // Add a high penalty if not reachable within k steps
+  }
+}
+
+function gbfs(state, start, target, getNextState, colLen, k = 3) {
+  let visited = new Set();
+  let frontier = [];
+
+  frontier.push([0, start]);
+  visited.add(start);
+
+  while (frontier.length > 0) {
+    frontier.sort((a, b) => a[0] - b[0]);
+    let [priority, current] = frontier.shift();
+    let neighbors = state[current][1];
+
+    for (let neighbor of neighbors) {
+      if (visited.has(neighbor)) {
+        continue;
       }
-      return path.map(index => indexToList(index, colLen));
-    }
 
-    const [_, neighbors] = list[current];
-    const liveNeighbors = neighbors[0];
-
-    for (const neighborIndex of liveNeighbors) {
-      const tentativeGScore = gScore.get(current) + 1;
-      if (tentativeGScore < gScore.get(neighborIndex)) {
-        cameFrom.set(neighborIndex, current);
-        gScore.set(neighborIndex, tentativeGScore);
-        fScore.set(neighborIndex, tentativeGScore + heuristic(indexToList(neighborIndex, colLen), target));
-
-        if (!queue.has(neighborIndex)) {
-          queue.enqueue(neighborIndex, fScore.get(neighborIndex));
-        }
+      if (neighbor === target) {
+        // Target found, return true
+        return true;
       }
+
+      visited.add(neighbor);
+      let h = heuristicWithFutureSteps(neighbor, target, state, getNextState, colLen, k);
+      frontier.push([h, neighbor]);
     }
   }
 
-  // No path found
-  return null;
+  return false;
 }

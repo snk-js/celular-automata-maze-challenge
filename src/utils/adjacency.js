@@ -51,7 +51,8 @@ export const getNeighborsFromList = (index, list, colLen) => {
 
   for (const neighborIndex of neighbors) {
     if (list[neighborIndex]) {
-      list[neighborIndex][0] ? lives.push(neighborIndex) : dead.push(neighborIndex);
+      !["1", "2", "4", "5"].includes(list[neighborIndex][2]) &&
+        (list[neighborIndex][0] ? lives.push(neighborIndex) : dead.push(neighborIndex))
     }
   }
   return [lives, dead];
