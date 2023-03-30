@@ -1,11 +1,11 @@
 
-import { listToIndex } from './transforms.js';
+import { matrixToListIdx } from './transforms.js';
 
 const keysToMoves = (colLen) => [
-  ["ArrowRight", listToIndex(0, 1, colLen)],
-  ["ArrowLeft", listToIndex(0, -1, colLen)],
-  ["ArrowUp", listToIndex(-1, 0, colLen)],
-  ["ArrowDown", listToIndex(1, 0, colLen)],
+  ["ArrowRight", matrixToListIdx(0, 1, colLen)],
+  ["ArrowLeft", matrixToListIdx(0, -1, colLen)],
+  ["ArrowUp", matrixToListIdx(-1, 0, colLen)],
+  ["ArrowDown", matrixToListIdx(1, 0, colLen)],
 ];
 
 
@@ -22,8 +22,7 @@ export const createIndexMap = (rowLen, colLen) => {
   const indexMap = new Map();
   for (let row = 0; row < rowLen; row++) {
     for (let col = 0; col < colLen; col++) {
-      const listIndex = row * colLen + col;
-      indexMap.set(listIndex, [row, col]);
+      indexMap.set(matrixToListIdx(row, col, colLen), [row, col]);
     }
   }
   return indexMap;

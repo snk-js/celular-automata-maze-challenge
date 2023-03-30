@@ -1,9 +1,9 @@
 import { createTable, fluxTable } from "./view/table.js";
-import { cellsMatrix } from "./utils/transforms.js";
-import { input } from "../processData.js";
-import { allowedKeys } from './utils/maps.js';
-import { initializeState, tick } from './utils/core.js';
-import { validateSwap } from './utils/agent.js';
+import { cellsMatrix } from "../utils/transforms.js";
+import { input } from "../processClientData.js";
+import { allowedKeys } from '../utils/maps.js';
+import { initializeState, tick } from '../utils/core.js';
+import { validateSwap } from '../utils/agent.js';
 
 const div = document.createElement('div');
 div.setAttribute("class", "container");

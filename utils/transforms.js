@@ -4,10 +4,10 @@ export const cellsMatrix = (input) => {
   return splited
 }
 
-export const listToIndex = (row, col, colLen) => {
+export const matrixToListIdx = (row, col, colLen) => {
   return row * colLen + col;
 }
 
-export const indexToList = (index, colLen) => {
+export const listToMatrixIdx = (index, colLen) => {
   return [Math.floor(index / colLen), index % colLen];
 }

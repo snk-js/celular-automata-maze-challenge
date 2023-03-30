@@ -1,4 +1,4 @@
-import { listToIndex } from './transforms.js'
+import { matrixToListIdx } from './transforms.js'
 export const getNeighborsFromMatrix = (row, col, matrix) => {
   const lives = [];
   const dead = [];
@@ -17,7 +17,7 @@ export const getNeighborsFromMatrix = (row, col, matrix) => {
   for (const [neighborRow, neighborCol] of neighbors) {
     const node = matrix[neighborRow] && matrix[neighborRow][neighborCol]
     const allowedNodes = [0, 1, 3, 4]
-    const idx = listToIndex(neighborRow, neighborCol, matrix[0].length)
+    const idx = matrixToListIdx(neighborRow, neighborCol, matrix[0].length)
     if (
       allowedNodes.includes(node) && neighborRow >= 0 &&
       neighborRow < matrix.length &&
