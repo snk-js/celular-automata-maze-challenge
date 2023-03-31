@@ -4,7 +4,6 @@ import { initializeState, tick } from './utils/core.js';
 import { gbfs } from "./utils/dfs.js";
 import { saveDirectionsToFile } from "./index.js";
 import { pathToDirections } from "./utils/output.js";
-
 const celular_automata_input_easy =
   `3 0 0 0 0 0 0 0
 0 0 0 0 1 0 0 0
@@ -14,8 +13,8 @@ const celular_automata_input_easy =
 0 0 0 0 1 0 0 0
 0 0 0 0 0 0 0 4`;
 
-const largeInput = await cellsMatrix(await input);
-// const largeInput = false
+// const largeInput = await cellsMatrix(await input);
+const largeInput = false
 const initialStateMatrix = largeInput || cellsMatrix(celular_automata_input_easy);
 
 const colLen = initialStateMatrix[0].length;
@@ -28,11 +27,10 @@ const target = flatMatrix.findIndex((cell) => cell === 4);
 
 const state = initializeState(initialStateMatrix)
 
-//create a map for 300 ticks, a map that has indexes as key and the state as value
 const states = new Map();
 states.set(0, state);
 
-const stateDepth = 300
+const stateDepth = 100;
 
 const createStates = (states, page) => {
   for (let i = 1; i < stateDepth; i++) {
@@ -43,8 +41,13 @@ const createStates = (states, page) => {
 
 createStates(states)
 
-export const getSolution = { result: () => gbfs(states, start, target, colLen, rowLen), colLen }
-const directions = pathToDirections(getSolution.result(), getSolution.colLen);
-const result = saveDirectionsToFile(directions, 'result.txt');
-console.log(getSolution.result())
+const path = gbfs(states, start, target, colLen, rowLen)
+console.log(path);
+export const getSolution = () => ({
+  result: path,
+  colLen,
+  states,
+  directions: pathToDirections(path, colLen),
+  saveDirectionsToFile: () => saveDirectionsToFile(directions, 'result.txt')
+});
 

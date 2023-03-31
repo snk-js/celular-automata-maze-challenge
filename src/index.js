@@ -1,9 +1,10 @@
 import { createTable, fluxTable } from "./view/table.js";
-import { cellsMatrix } from "../utils/transforms.js";
+import { cellsMatrix, objectToMap } from "../utils/transforms.js";
 import { input } from "../processClientData.js";
 import { allowedKeys } from '../utils/maps.js';
 import { initializeState, tick } from '../utils/core.js';
 import { validateSwap } from '../utils/agent.js';
+
 
 const div = document.createElement('div');
 div.setAttribute("class", "container");
@@ -17,54 +18,46 @@ const celular_automata_input_easy =
 0 0 0 0 1 0 0 0
 0 0 0 0 0 0 0 4`;
 
-const largeInput = await cellsMatrix(await input);
-// const largeInput = false
+const largeInput = false
 const initialStateMatrix = largeInput || cellsMatrix(celular_automata_input_easy);
 const rowLen = initialStateMatrix.length;
 const colLen = initialStateMatrix[0].length;
 
 let agentPos = [0] // Initial position
 
-// every actions just updates this state
-// and not creates a new one in memory
 const state = [initializeState(initialStateMatrix)];
 
-const states = new Map();
-states.set(0, state[0]);
-
-const stateDepth = 300
-const createStates = (states, page) => {
-  for (let i = 1; i < stateDepth; i++) {
-    console.log(`${i} ticks generated`);
-    states.set(i, tick(states.get(i - 1), colLen));
-  }
+async function fetchResult() {
+  const response = await fetch('/result');
+  const result = await response.json();
+  return { path: result.result, states: objectToMap(result.states) };
 }
+const { path, states } = await fetchResult();
 
-
-createStates(states)
+let i = 0;
 
 const onTick = (next) => {
   if (!next) return;
   const currentState = state.pop();
-  const updatedState = tick(currentState, colLen);
+  const updatedState = states.get(i + 1);
   state.push(updatedState);
 
-  const reset = () => {
-    state.pop();
-    state.push(currentState)
-    fluxTable(currentState, rowLen, colLen);
-  }
+  console.log('currentState', currentState);
 
-  const validStep = validateSwap(next, agentPos, updatedState)
+  const newPos = validateSwap(next, agentPos, updatedState);
 
-  if (validStep) {
-    fluxTable(updatedState, rowLen, colLen);
+  if (newPos !== false) {
+    fluxTable(updatedState, rowLen, colLen, path);
+    agentPos = [newPos];
+    i++;
   } else {
-    reset();
+    state.pop();
+    state.push(currentState);
+    fluxTable(currentState, rowLen, colLen, path);
   }
 };
-document.addEventListener('keydown', (event) => { console.log(event); onTick(allowedKeys(event.key, colLen)) });
 
+document.addEventListener('keydown', (event) => { onTick(allowedKeys(event.key, colLen)) });
 
-div.appendChild(createTable(state[0], rowLen, colLen));
+div.appendChild(createTable(state[0], rowLen, colLen, path));
 document.getElementsByTagName('body')[0].appendChild(div);

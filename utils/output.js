@@ -1,5 +1,6 @@
 export function pathToDirections(path, colLen) {
   const directions = [];
+  !path && (path = [])
   for (let i = 1; i < path.length; i++) {
     const prev = path[i - 1];
     const curr = path[i];

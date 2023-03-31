@@ -1,6 +1,4 @@
 import { getValidNeighbors } from './adjacency.js';
-import { listToMatrixIdx } from './transforms.js'
-import { constructPath } from './path.js';
 import { heuristic } from './heuristics.js';
 
 export function gbfs(states, start, target, colLen, rowLen) {
@@ -14,13 +12,9 @@ export function gbfs(states, start, target, colLen, rowLen) {
   while (frontier.length > 0) {
     frontier.sort((a, b) => a[0] - b[0]);
     let [_, current, tickCount] = frontier.shift();
-    const [currentRow, currentCol] = listToMatrixIdx(current, colLen);
-    const [targetRow, targetCol] = listToMatrixIdx(target, colLen);
 
-    if (currentRow === targetRow && currentCol === targetCol) {
-      let path = constructPath(parentMap, start, current, tickCount);
-      path.shift()
-      return path;
+    if (current === target) {
+      return constructPath(parentMap, start, current, tickCount);
     }
 
     const deadNeighbors = getValidNeighbors(current, states, tickCount, colLen, rowLen);
@@ -40,4 +34,18 @@ export function gbfs(states, start, target, colLen, rowLen) {
   }
 
   return null; // No path found
+}
+
+export function constructPath(parentMap, start, current, tickCount) {
+  let path = [current];
+  while (current !== start) {
+    const currentKey = current + '|' + tickCount;
+    const [previous, previousTickCount] = parentMap.get(currentKey) || [null, null];
+    if (previous === null) break;
+    path.unshift(previous);
+    current = previous;
+    tickCount = previousTickCount;
+  }
+  console.log({ parentMap })
+  return path;
 }

@@ -3,7 +3,7 @@ import { createServer } from 'http';
 import { readFile, writeFile } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join, extname } from 'path';
-import { pathToDirections } from "./utils/output.js";
+import { mapToObject } from "./utils/transforms.js";
 import { getSolution } from "./solution.js";
 
 
@@ -24,7 +24,6 @@ export function saveDirectionsToFile(directions, filename) {
 }
 
 
-
 server.on('request', async (req, res) => {
   const publicPath = join(__dirname, '/');
   console.log('Request received:', req.url); // Add this line
@@ -33,10 +32,9 @@ server.on('request', async (req, res) => {
 
   if (req.url === '/result') {
     console.log('Handling /result request'); // Add this line to check if the endpoint is executed
-    const solResult = getSolution.result()
-    const directions = pathToDirections(solResult, getSolution.colLen);
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end(directions);
+    const { result, states } = getSolution()
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ result, states: mapToObject(states) }));
   } else {
     if (req.url === '/' || req.url === '/index.html') {
       filePath = join(publicPath, 'index.html');

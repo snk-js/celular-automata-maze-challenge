@@ -23,9 +23,10 @@ export const initializeState = (matrix) => {
 
 export const tick = (adjacencyList, colLen) => {
   const updatedList = JSON.parse(JSON.stringify(adjacencyList));
+
   adjacencyList.forEach(([live, [alives]], index) => {
     const livingNeighbors = alives.length;
-    if (!live && livingNeighbors > 1 && livingNeighbors < 5) {
+    if (!live && livingNeighbors > 1 && livingNeighbors < 4) {
       updatedList[index][0] = true;
     } else if (live && livingNeighbors > 3 && livingNeighbors < 6) {
       updatedList[index][0] = true;

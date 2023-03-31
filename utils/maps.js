@@ -16,7 +16,6 @@ const stringToMoves = (colLen) => [
 ];
 
 export const allowedKeys = (entry, colLen) => {
-  console.log({ entry })
   const movesMap = keysToMoves(colLen).reduce((acc, [key, move]) => {
     acc[key] = move;
     return acc;

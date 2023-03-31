@@ -1,13 +1,12 @@
 export const validateSwap = (next, currentPos, adjacencyList) => {
-  const pos = currentPos.pop()
+  const pos = currentPos[0];
   const newPos = pos + next;
-  if (newPos >= 0 && newPos < adjacencyList.length && !adjacencyList[newPos][0]) {
-    currentPos.push(newPos);
-    updateObserverPosition(pos, newPos, adjacencyList)
-    return true;
 
+  if (newPos >= 0 && newPos < adjacencyList.length && !adjacencyList[newPos][0]) {
+    updateObserverPosition(pos, newPos, adjacencyList);
+    return newPos;
   }
-  currentPos.push(pos);
+
   return false;
 };
 

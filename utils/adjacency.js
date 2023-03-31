@@ -50,15 +50,37 @@ export const getNeighborsFromList = (index, list, colLen) => {
     index + colLen + 1, // Down Right
   ];
 
+  const rowLen = list.length / colLen;
+
+  const [row, col] = listToMatrixIdx(index, colLen);
+
+  // Validate neighbors to not surpass the boundaries
   for (const neighborIndex of neighbors) {
-    if (list[neighborIndex]) {
-      !["1", "2", "4", "5"].includes(list[neighborIndex][2]) &&
-        (list[neighborIndex][0] ? lives.push(neighborIndex) : dead.push(neighborIndex))
+    const [neighborRow, neighborCol] = listToMatrixIdx(neighborIndex, colLen);
+
+    if (
+      neighborRow >= 0 &&
+      neighborRow < rowLen &&
+      neighborCol >= 0 &&
+      neighborCol < colLen &&
+      list[neighborIndex]
+    ) {
+      // Check if the neighbor is in the same row or adjacent row
+      const isSameRow = row === neighborRow;
+      const isAdjacentRow = Math.abs(neighborRow - row) === 1;
+
+      const validSameRowNeighbor = isSameRow && Math.abs(neighborCol - col) === 1;
+      const validAdjacentRowNeighbor = isAdjacentRow && Math.abs(neighborCol - col) <= 1;
+
+      if (validSameRowNeighbor || validAdjacentRowNeighbor) {
+        !["1", "2", "4", "5"].includes(list[neighborIndex][2]) &&
+          (list[neighborIndex][0] ? lives.push(neighborIndex) : dead.push(neighborIndex));
+      }
     }
   }
+
   return [lives, dead];
 };
-
 
 export function getValidNeighbors(current, states, tickCount, colLen, rowLen) {
   const [row, col] = listToMatrixIdx(current, colLen);
@@ -76,7 +98,7 @@ export function getValidNeighbors(current, states, tickCount, colLen, rowLen) {
     if (newRow >= 0 && newRow < rowLen && newCol >= 0 && newCol < colLen) {
       const neighborIdx = newRow * colLen + newCol;
       const [isLive, _, char] = states.get(tickCount)[neighborIdx];
-      if (char === '4') {
+      if (char === '4' || char === '1') {
         deadNeighbors.push(neighborIdx);
       }
       !isLive && deadNeighbors.push(neighborIdx);

@@ -7,7 +7,7 @@ const getCharacteristic = {
   "5": ["target-point", "observer"]
 }
 
-export const createTable = (adjacencyList, rowLen, colLen) => {
+export const createTable = (adjacencyList, rowLen, colLen, path) => {
   const table = document.createElement("table");
   table.setAttribute("class", "table");
 
@@ -21,6 +21,11 @@ export const createTable = (adjacencyList, rowLen, colLen) => {
       td.setAttribute("class", "cell");
       td.setAttribute("state", cellState ? "alive" : "dead");
 
+      // if (pathObj[index]) {
+      //   td.classList.add("highlighted");
+
+      // }
+
       if (cellCharacteristic) {
         getCharacteristic[cellCharacteristic].map((detail) => {
           return td.classList.add(detail)
@@ -33,12 +38,22 @@ export const createTable = (adjacencyList, rowLen, colLen) => {
     table.appendChild(tr);
   }
 
+  // update table to highlight path
+  // path have indexes of nodes in list format
+  console.log(path)
+  path.map((index, i) => {
+    const [row, col] = [Math.floor(index / colLen), index % colLen];
+    const td = table.children[row].children[col];
+    td.classList.add("highlighted");
+  })
+
+
   return table;
 };
 
 
-export const fluxTable = (state, rowLen, colLen) => {
+export const fluxTable = (state, rowLen, colLen, highlighted) => {
   const oldTable = document.getElementsByTagName('table')[0];
-  const newTable = createTable(state, rowLen, colLen);
+  const newTable = createTable(state, rowLen, colLen, highlighted);
   newTable && oldTable.parentNode.replaceChild(newTable, oldTable);
 };
