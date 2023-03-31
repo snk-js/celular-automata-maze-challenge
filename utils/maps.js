@@ -8,9 +8,25 @@ const keysToMoves = (colLen) => [
   ["ArrowDown", matrixToListIdx(1, 0, colLen)],
 ];
 
+const stringToMoves = (colLen) => [
+  ["R", matrixToListIdx(0, 1, colLen)],
+  ["L", matrixToListIdx(0, -1, colLen)],
+  ["U", matrixToListIdx(-1, 0, colLen)],
+  ["D", matrixToListIdx(1, 0, colLen)],
+];
 
 export const allowedKeys = (entry, colLen) => {
+  console.log({ entry })
   const movesMap = keysToMoves(colLen).reduce((acc, [key, move]) => {
+    acc[key] = move;
+    return acc;
+  }, {});
+
+  return movesMap[entry];
+};
+
+export const allowedKeysForStrings = (entry, colLen) => {
+  const movesMap = stringToMoves(colLen).reduce((acc, [key, move]) => {
     acc[key] = move;
     return acc;
   }, {});

@@ -23,15 +23,28 @@ const initialStateMatrix = largeInput || cellsMatrix(celular_automata_input_easy
 const rowLen = initialStateMatrix.length;
 const colLen = initialStateMatrix[0].length;
 
-let agentPos = [0]; // Initial position
+let agentPos = [0] // Initial position
 
 // every actions just updates this state
 // and not creates a new one in memory
 const state = [initializeState(initialStateMatrix)];
 
+const states = new Map();
+states.set(0, state[0]);
 
-const onTick = (direction) => {
-  if (!direction) return;
+const stateDepth = 300
+const createStates = (states, page) => {
+  for (let i = 1; i < stateDepth; i++) {
+    console.log(`${i} ticks generated`);
+    states.set(i, tick(states.get(i - 1), colLen));
+  }
+}
+
+
+createStates(states)
+
+const onTick = (next) => {
+  if (!next) return;
   const currentState = state.pop();
   const updatedState = tick(currentState, colLen);
   state.push(updatedState);
@@ -42,11 +55,16 @@ const onTick = (direction) => {
     fluxTable(currentState, rowLen, colLen);
   }
 
-  const validStep = validateSwap(direction, agentPos, updatedState)
+  const validStep = validateSwap(next, agentPos, updatedState)
 
-  validStep ? fluxTable(updatedState, rowLen, colLen) : reset()
+  if (validStep) {
+    fluxTable(updatedState, rowLen, colLen);
+  } else {
+    reset();
+  }
 };
-document.addEventListener('keydown', (event) => onTick(allowedKeys(event.key, colLen)));
+document.addEventListener('keydown', (event) => { console.log(event); onTick(allowedKeys(event.key, colLen)) });
+
 
 div.appendChild(createTable(state[0], rowLen, colLen));
 document.getElementsByTagName('body')[0].appendChild(div);

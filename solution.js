@@ -1,8 +1,8 @@
-import fs from 'fs'
 import { cellsMatrix } from "./utils/transforms.js";
 import { input } from "./processServerData.js";
 import { initializeState, tick } from './utils/core.js';
 import { gbfs } from "./utils/dfs.js";
+import { saveDirectionsToFile } from "./index.js";
 import { pathToDirections } from "./utils/output.js";
 
 const celular_automata_input_easy =
@@ -34,44 +34,17 @@ states.set(0, state);
 
 const stateDepth = 300
 
-const create500Ticks = (states, page) => {
+const createStates = (states, page) => {
   for (let i = 1; i < stateDepth; i++) {
-    console.log(`${i} ticks generated`);
+    console.log(`${i} generations created`);
     states.set(i, tick(states.get(i - 1), colLen));
   }
 }
 
+createStates(states)
 
-console.log('mounting state')
-// measure
-const t2 = performance.now();
-create500Ticks(states)
-const t3 = performance.now();
-// convert to seconds with 2 decimals
-const time = (t3 - t2) / 1000
-console.log(`mounting state took ${time} seconds.`);
-// measure start time of the algorithm
-const t0 = performance.now();
-const found = gbfs(states, start, target, colLen, rowLen)
-// measure end time of the algorithm
-const t1 = performance.now();
-console.log(`GBFS took ${t1 - t0} milliseconds.`);
-console.log({ found })
-
-const directions = pathToDirections(found, colLen)
-
-
-function saveDirectionsToFile(directions, filename) {
-  fs.writeFile(filename, directions, (err) => {
-    if (err) throw err;
-    console.log('Directions saved to file:', filename);
-  });
-  return directions
-}
-
-
-const result = saveDirectionsToFile(directions, 'result.txt')
-
-console.log({ result });
-export default found
+export const getSolution = { result: () => gbfs(states, start, target, colLen, rowLen), colLen }
+const directions = pathToDirections(getSolution.result(), getSolution.colLen);
+const result = saveDirectionsToFile(directions, 'result.txt');
+console.log(getSolution.result())
 
