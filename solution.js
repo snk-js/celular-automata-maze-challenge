@@ -1,8 +1,9 @@
-
+import fs from 'fs'
 import { cellsMatrix } from "./utils/transforms.js";
 import { input } from "./processServerData.js";
 import { initializeState, tick } from './utils/core.js';
 import { gbfs } from "./utils/dfs.js";
+import { pathToDirections } from "./utils/output.js";
 
 const celular_automata_input_easy =
   `3 0 0 0 0 0 0 0
@@ -57,5 +58,20 @@ const t1 = performance.now();
 console.log(`GBFS took ${t1 - t0} milliseconds.`);
 console.log({ found })
 
+const directions = pathToDirections(found, colLen)
+
+
+function saveDirectionsToFile(directions, filename) {
+  fs.writeFile(filename, directions, (err) => {
+    if (err) throw err;
+    console.log('Directions saved to file:', filename);
+  });
+  return directions
+}
+
+
+const result = saveDirectionsToFile(directions, 'result.txt')
+
+console.log({ result });
 export default found
 

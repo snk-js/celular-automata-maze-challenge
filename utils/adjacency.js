@@ -57,3 +57,5 @@ export const getNeighborsFromList = (index, list, colLen) => {
   }
   return [lives, dead];
 };
+
+
