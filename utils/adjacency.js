@@ -1,4 +1,5 @@
-import { matrixToListIdx } from './transforms.js'
+import { matrixToListIdx, listToMatrixIdx } from './transforms.js'
+
 export const getNeighborsFromMatrix = (row, col, matrix) => {
   const lives = [];
   const dead = [];
@@ -59,3 +60,28 @@ export const getNeighborsFromList = (index, list, colLen) => {
 };
 
 
+export function getValidNeighbors(current, states, tickCount, colLen, rowLen) {
+  const [row, col] = listToMatrixIdx(current, colLen);
+  const directions = [
+    [-1, 0], // up
+    [0, 1], // right
+    [1, 0], // down
+    [0, -1], // left
+  ];
+
+  const deadNeighbors = [];
+  for (const [dRow, dCol] of directions) {
+    const newRow = row + dRow;
+    const newCol = col + dCol;
+    if (newRow >= 0 && newRow < rowLen && newCol >= 0 && newCol < colLen) {
+      const neighborIdx = newRow * colLen + newCol;
+      const [isLive, _, char] = states.get(tickCount)[neighborIdx];
+      if (char === '4') {
+        deadNeighbors.push(neighborIdx);
+      }
+      !isLive && deadNeighbors.push(neighborIdx);
+    }
+  }
+
+  return deadNeighbors;
+}
