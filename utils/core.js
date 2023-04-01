@@ -21,23 +21,26 @@ export const initializeState = (matrix) => {
 }
 
 
-export const tick = (adjacencyList, colLen) => {
-  const updatedList = JSON.parse(JSON.stringify(adjacencyList));
+export const tick = (list, colLen) => {
+  list.forEach(([live, [alives]], index) => {
 
-  adjacencyList.forEach(([live, [alives]], index) => {
-    const livingNeighbors = alives.length;
-    if (!live && livingNeighbors > 1 && livingNeighbors < 4) {
-      updatedList[index][0] = true;
+    const filteredLives = alives.filter((alive) => {
+      return list[alive][2] !== "4" && list[alive][2] !== "2";
+    })
+
+    const livingNeighbors = filteredLives.length;
+    if (!live && livingNeighbors > 1 && livingNeighbors < 5) {
+      list[index][0] = true;
     } else if (live && livingNeighbors > 3 && livingNeighbors < 6) {
-      updatedList[index][0] = true;
+      list[index][0] = true;
     } else {
-      updatedList[index][0] = false;
+      list[index][0] = false;
     }
   });
 
-  updatedList.forEach((_, index) => {
-    updatedList[index][1] = getNeighborsFromList(index, updatedList, colLen);
+  list.forEach((_, index) => {
+    list[index][1] = getNeighborsFromList(index, list, colLen);
   });
 
-  return updatedList;
+  return list;
 };

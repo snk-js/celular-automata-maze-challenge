@@ -40,8 +40,7 @@ export const createTable = (adjacencyList, rowLen, colLen, path) => {
 
   // update table to highlight path
   // path have indexes of nodes in list format
-  console.log(path)
-  path.map((index, i) => {
+  path && path.map((index, i) => {
     const [row, col] = [Math.floor(index / colLen), index % colLen];
     const td = table.children[row].children[col];
     td.classList.add("highlighted");

@@ -1,4 +1,4 @@
-import { cellsMatrix } from "./utils/transforms.js";
+import { cellsMatrix, mapToObject } from "./utils/transforms.js";
 import { input } from "./processServerData.js";
 import { initializeState, tick } from './utils/core.js';
 import { gbfs } from "./utils/dfs.js";
@@ -13,8 +13,8 @@ const celular_automata_input_easy =
 0 0 0 0 1 0 0 0
 0 0 0 0 0 0 0 4`;
 
-// const largeInput = await cellsMatrix(await input);
-const largeInput = false
+const largeInput = await cellsMatrix(await input);
+// const largeInput = false
 const initialStateMatrix = largeInput || cellsMatrix(celular_automata_input_easy);
 
 const colLen = initialStateMatrix[0].length;
@@ -30,7 +30,7 @@ const state = initializeState(initialStateMatrix)
 const states = new Map();
 states.set(0, state);
 
-const stateDepth = 100;
+const stateDepth = 300;
 
 const createStates = (states, page) => {
   for (let i = 1; i < stateDepth; i++) {
@@ -40,8 +40,7 @@ const createStates = (states, page) => {
 }
 
 createStates(states)
-
-const path = gbfs(states, start, target, colLen, rowLen)
+const path = gbfs(mapToObject(states), start, target, colLen, rowLen)
 console.log(path);
 export const getSolution = () => ({
   result: path,

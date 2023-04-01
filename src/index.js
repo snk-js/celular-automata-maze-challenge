@@ -2,7 +2,7 @@ import { createTable, fluxTable } from "./view/table.js";
 import { cellsMatrix, objectToMap } from "../utils/transforms.js";
 import { input } from "../processClientData.js";
 import { allowedKeys } from '../utils/maps.js';
-import { initializeState, tick } from '../utils/core.js';
+import { initializeState } from '../utils/core.js';
 import { validateSwap } from '../utils/agent.js';
 
 
@@ -18,7 +18,8 @@ const celular_automata_input_easy =
 0 0 0 0 1 0 0 0
 0 0 0 0 0 0 0 4`;
 
-const largeInput = false
+const largeInput = await cellsMatrix(await input);
+// const largeInput = false
 const initialStateMatrix = largeInput || cellsMatrix(celular_automata_input_easy);
 const rowLen = initialStateMatrix.length;
 const colLen = initialStateMatrix[0].length;
@@ -41,9 +42,6 @@ const onTick = (next) => {
   const currentState = state.pop();
   const updatedState = states.get(i + 1);
   state.push(updatedState);
-
-  console.log('currentState', currentState);
-
   const newPos = validateSwap(next, agentPos, updatedState);
 
   if (newPos !== false) {

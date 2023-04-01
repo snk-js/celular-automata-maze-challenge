@@ -1,4 +1,4 @@
-import { getValidNeighbors } from './adjacency.js';
+import { getNeighborsFromList } from './adjacency.js';
 import { heuristic } from './heuristics.js';
 
 export function gbfs(states, start, target, colLen, rowLen) {
@@ -13,13 +13,14 @@ export function gbfs(states, start, target, colLen, rowLen) {
     frontier.sort((a, b) => a[0] - b[0]);
     let [_, current, tickCount] = frontier.shift();
 
+    console.log(current)
     if (current === target) {
       return constructPath(parentMap, start, current, tickCount);
     }
 
-    const deadNeighbors = getValidNeighbors(current, states, tickCount, colLen, rowLen);
+    const [livingOnes, deadOnes] = getNeighborsFromList(current, states, colLen, rowLen, true);
 
-    for (let neighbor of deadNeighbors) {
+    for (let neighbor of deadOnes) {
       const newTickCount = tickCount + 1;
       const neighborKey = neighbor + '|' + newTickCount;
       if (visited.has(neighborKey) && neighbor !== 0) {
