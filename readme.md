@@ -9,6 +9,6 @@ You run the application with node . this includes a frontend which you can move 
 
 in order for you to run the solution and output the file this is the command: node solution.js.
 
-<img src="print.png"  alt="img of the maze set up">
+<img src="print.PNG"  alt="img of the maze set up">
 <img src="gif.gif" alt="gif of the agent traversing a little bit the maze">
 
