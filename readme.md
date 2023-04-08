@@ -1,7 +1,9 @@
 this repository is a nodejs 16+ javascript implementation of a solution of a celular automata maze traversal to reach the last square as goal. this was Brazilian code contest ocurried within domain of sigmageek.com sponsored by Stone.
 
 it contains several complex implementation of efficient algorithms such like GBFS (greedy best-first search) I tried to implement, but in counterpart those are delivering wrong answers, in other words, something or a group of somethings are incorrect in the implemention.
+
 <hr/>
+
 ## A challenge for curious visitors:
 - you are free to try to debug this application you will sound a badass developer I couldn't yet.
 
