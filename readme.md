@@ -8,3 +8,7 @@ it contains several complex implementation of efficient algorithms such like GBF
 You run the application with node . this includes a frontend which you can move the agent using key arrows and a simple server serving the html content on the 5500 port of the browser.
 
 in order for you to run the solution and output the file this is the command: node solution.js.
+
+<img src="print.png"  alt="img of the maze set up">
+<img src="gif.gif" alt="gif of the agent traversing a little bit the maze">
+
